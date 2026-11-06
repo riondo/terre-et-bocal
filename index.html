@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- DÉFAUT SEO 1 : title trop long (plus de 60 caractères) -->
@@ -8,6 +9,45 @@
   <!-- DÉFAUT SEO 2 : aucune meta description -->
 
   <!-- ===== Livrable 3 : colle ici la balise Google Analytics 4 (gtag.js) ===== -->
+  
+<!-- Google Analytics 4 : consentement requis -->
+<script>
+  function accepterAnalytics() {
+    localStorage.setItem("analytics-consent", "accepted");
+    chargerAnalytics();
+    document.getElementById("analytics-consent").hidden = true;
+  }
+
+  function refuserAnalytics() {
+    localStorage.setItem("analytics-consent", "refused");
+    document.getElementById("analytics-consent").hidden = true;
+  }
+
+  function chargerAnalytics() {
+    if (window.analyticsCharge) return;
+    window.analyticsCharge = true;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){dataLayer.push(arguments);};
+    gtag("js", new Date());
+    gtag("config", "G-QJJHF9GM97");
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src =
+      "https://www.googletagmanager.com/gtag/js?id=G-QJJHF9GM97";
+    document.head.appendChild(script);
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    if (localStorage.getItem("analytics-consent") === "accepted") {
+      chargerAnalytics();
+    } else if (!localStorage.getItem("analytics-consent")) {
+      document.getElementById("analytics-consent").hidden = false;
+    }
+  });
+</script>
+
 
   <style>
     :root{
@@ -58,6 +98,23 @@
   </style>
 </head>
 <body>
+
+<div id="analytics-consent" hidden
+     style="position:fixed;bottom:0;left:0;width:100%;
+            background:#fff;padding:20px;z-index:9999;
+            box-shadow:0 -2px 10px #999;
+            font-family:Arial,sans-serif;">
+  <p>
+    Ce site utilise Google Analytics pour mesurer
+    son audience. Acceptez-vous ce suivi ?
+  </p>
+  <button type="button" onclick="accepterAnalytics()">
+    Accepter
+  </button>
+  <button type="button" onclick="refuserAnalytics()">
+    Refuser
+  </button>
+</div>
 
 <header>
   <div class="barre">
